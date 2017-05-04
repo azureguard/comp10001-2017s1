@@ -14,6 +14,7 @@ import sys
 
 
 try:
+    sys.path.insert(0, '../')
     import program as submission  # import the file `program.py'
     import tests  # import the file `tests.py'
     try:
@@ -29,8 +30,8 @@ except Exception as detail:
     print("ERROR: {}".format(detail))
     raise
 
-    
-    
+
+
 
 
 ####################################################################################
@@ -47,41 +48,41 @@ def test(funct_name, testset):
     if funct_name not in testset.test_cases:
         print("ERROR: '{0}' is not a recognised function name; select from: {1}".format(funct_name,str(testset.test_cases.keys())))
         return -1
-    
+
     # run test (using valid function name)
     print("Testing the {0} function ...\n".format(funct_name))
     correct = 0  # number of tests passed
-    
+
     # run the user-defined function with each of the sets of arguments provided in `tests`, and chech that the
     # output is correct
     for test in testset.test_cases[funct_name]:
         print("  testing {0} ...".format(test[0]),)
         userval = eval(test[0])  # run the function with the supplied set of arguments (take the string and execute it)
         expval = test[1]
-        
+
         # if the returned value is correct, increment `correct` and print a congratulatory print statement
         if test_equivalent(userval,expval,funct_name):
             correct += 1
             print("passed")
-            
+
         # if the returned value is *in*correct, print diagnostics
         else:
             print("failed")
             print("    * expected = (type '{0}') {1}".format(type(expval), expval))
             print("    * returned = (type '{0}') {1}".format(type(userval), userval))
-    
-    # print the overall number of tests passed vs. attempted    
+
+    # print the overall number of tests passed vs. attempted
     print("\n{0}/{1} tests passed for {2}".format(correct,len(testset.test_cases[funct_name]), funct_name))
 
-#   
-# end test()    
+#
+# end test()
 ####################################################################################
 
 
 
 
 
-    
+
 ####################################################################################
 #
 # name: test_equivalent()
@@ -96,7 +97,7 @@ def test(funct_name, testset):
 #
 
 def test_equivalent(a, b, funct_name):
-    # we consider lists of lists to be the same as long as their contents are the same, 
+    # we consider lists of lists to be the same as long as their contents are the same,
     # ignoring order of both the outer and inner lists
     if funct_name == 'play':
         type_a = type(a)
@@ -113,13 +114,13 @@ def test_equivalent(a, b, funct_name):
         except TypeError:
             # One of the items was not iterable, we fall back to standard equality
             return a == b
-            
+
     # for everything else, we use the built-in notion of equality
     else:
         return type(a) == type(b) and a == b
 
-#  
-# end test_equivalent()   
+#
+# end test_equivalent()
 ####################################################################################
 
 ####################################################################################
@@ -129,21 +130,21 @@ def test_equivalent(a, b, funct_name):
 # synposis: convert a list-of-lists into a set of sets. This is to facilitate
 #   order-agnostic checking of output.
 # input(s): a list of lists
-# output(s): a frozenset of frozensets 
+# output(s): a frozenset of frozensets
 #
 
 def as_setset(seq):
     return frozenset(frozenset(s) for s in seq)
 
-#  
-# end as_setset()   
+#
+# end as_setset()
 ####################################################################################
 
 
 
 
 def test_all(testset):
-    for fn_name in sorted(testset.test_cases): 
+    for fn_name in sorted(testset.test_cases):
         # if submission implements the given function
         if hasattr(submission, fn_name):
             test(fn_name,testset)
@@ -152,7 +153,7 @@ def test_all(testset):
 
 
 
-# A module's __name__ is set to __main__ when it is imported at the top level 
+# A module's __name__ is set to __main__ when it is imported at the top level
 # (i.e. not by another module)
 if __name__ == "__main__":
     test_all(tests)
